@@ -11,7 +11,11 @@ __author__ = 'andrew.shvv@gmail.com'
 class PublicApi(BasePublicApi):
     url = "https://poloniex.com/public?"
 
+    def __init__(self, timeout=None):
+        self.timeout = timeout
+
     def api_call(self, *args, **kwargs):
+        kwargs['timeout'] = self.timeout
         response = requests.get(self.url, *args, **kwargs)
         return response.json()
 

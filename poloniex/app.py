@@ -12,10 +12,11 @@ __author__ = 'andrew.shvv@gmail.com'
 
 
 class Application:
-    def __init__(self, api_key=None, api_sec=None):
+    def __init__(self, api_key=None, api_sec=None, timeout=None):
         super().__init__()
         self.api_key = api_key
         self.api_sec = api_sec
+        self.timeout = timeout
         self.logger = getLogger(__name__)
 
         self._trading = None
@@ -35,7 +36,7 @@ class SyncApp(Application):
         self.init_api()
 
     def init_api(self):
-        self.public = sync.PublicApi()
+        self.public = sync.PublicApi(self.timeout)
 
         if self.api_key and self.api_sec:
             self._trading = sync.TradingApi(api_key=self.api_key, api_sec=self.api_sec)
@@ -76,7 +77,7 @@ class AsyncApp(Application):
         self.loop = asyncio.get_event_loop()
 
         if not session:
-            with aiohttp.ClientSession(loop=self.loop) as session:
+            with aiohttp.ClientSession(loop=self.loop, read_timeout=self.timeout, conn_timeout=self.timeout) as session:
                 self.init_api(self.loop, session)
         else:
             self.init_api(self.loop, session)

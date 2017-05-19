@@ -309,3 +309,16 @@ class TradingApi(BaseTradingApi):
         Cancels an order you have placed in a given market. Required POST parameter is "orderNumber"
         """
         pass
+
+    @command_operator
+    async def returnAvailableAccountBalances(self):
+        """
+        Returns your balances sorted by account. Specify the "account" parameter if you wish to fetch only the balances of one account
+        """
+
+    @command_operator
+    async def returnTradableBalances(self):
+        """
+        Returns your current tradable balances for each currency in each market for which margin trading is enabled.
+        Please note that these balances may vary continually with market conditions
+        """

@@ -184,6 +184,7 @@ class BaseTradingApi:
         amount = kwargs.get("amount")
         address = kwargs.get("address")
         order_number = kwargs.get("order_number")
+        account = kwargs.get("account")
 
         for case in switch(command):
             if case("returnBalances"):
@@ -192,6 +193,16 @@ class BaseTradingApi:
                 break
 
             if case("returnCompleteBalances"):
+                method = "post"
+                params = {"command": command}
+                break
+
+            if case("returnAvailableAccountBalances"):
+                method = "post"
+                params = {"command": command}
+                break
+
+            if case("returnTradableBalances"):
                 method = "post"
                 params = {"command": command}
                 break
